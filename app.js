@@ -1,6 +1,7 @@
-var express = require('express');
-var path = require('path');
-var { restoreDb } = require('./database/mysql');
+const express = require('express');
+const path = require('path');
+const { restoreDb } = require('./database/mysql');
+const requestIp = require('request-ip');
 
 var app = express();
 
@@ -9,9 +10,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/prueba', (req, res) => {
-    var success = restoreDb();
-    console.log(`Success del app: ${success}`);
-    if( success ) {
+    console.log(`IP Cliente: ${requestIp.getClientIp(req)}`);
+    if( restoreDb() ) {
         res.send("Base de datos restaurada");
     }else{
         res.send("No se pudo restaurar");

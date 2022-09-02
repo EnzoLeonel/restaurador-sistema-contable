@@ -20,15 +20,16 @@ function processLineByLine() {
         });
 
         rl.on('line', (line) => {
-            console.log(line);
             connection.query(line, (err, rows) => {
-                if (err)
-                    throw err;
+                if (err) {
+                    console.log(err);
                     success = false;
                     return;
+                }
             });
         });
         events.once(rl, 'close');
+        console.log(' - Todas las consultas ejecutadas - ')
         return success;
     }catch(err){
         console.error(err);
