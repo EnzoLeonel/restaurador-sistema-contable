@@ -1,55 +1,45 @@
 const mysql = require('mysql2');
+const path = require('path');
 const fs = require('fs');
 const events = require('events');
 const readline = require('readline');
+const requestIp = require('request-ip');
 
-const connection = mysql.createConnection({
+var db_config = {
     host: "btozqiibvdqa9tmgpsz6-mysql.services.clever-cloud.com",
     user: "ud6ciidjbxolhwxg",
     password: "SCpZw1nVttMq07Up4Km6",
-    port: "3306"
-});
+    port: "3306",
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
+}
 
-function processLineByLine() {
-    var success = true;
-    try {
+const pool = mysql.createPool(db_config);
+
+function restoreDb(req, res) {
+    try{
+        console.log(`IP Cliente: ${requestIp.getClientIp(req)}`);
         const fileStream = fs.createReadStream('./database/db-librodiario.sql');
         const rl = readline.createInterface({
             input: fileStream,
             crlfDelay: Infinity
         });
-
-        rl.on('line', (line) => {
-            connection.query(line, (err, rows) => {
-                if (err) {
-                    console.log(err);
-                    success = false;
-                    return;
-                }
+        pool.getConnection((err, conn) => {
+            rl.on('line', (line) => {
+                conn.query(line, (err, rows) => {
+                    if(err) throw err;
+                });
             });
-        });
-        events.once(rl, 'close');
-        console.log(' - Todas las consultas ejecutadas - ')
-        return success;
-    }catch(err){
-        console.error(err);
-        connection.end();
-        return false;
+            events.once(rl, 'close');
+            pool.releaseConnection(conn);
+            console.log(" - Todas las consultas realizadas - ")
+            res.sendFile(process.cwd() + '/public/sucess.html');
+         });
+    }catch(error){
+        console.error(error);
+        res.sendFile(process.cwd() + '/public/index.html');
     }
-}
-
-function restoreDb() {
-    var success = true;
-    connection.connect((err) => {
-        if (err) {
-            console.log(err);
-            success = false;
-            return;
-        }
-        console.log('Conexion establecida');
-        success = processLineByLine();
-    });
-    return success;
 }
 
 module.exports = {restoreDb};
