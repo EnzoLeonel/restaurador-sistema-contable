@@ -1,0 +1,144 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+body {
+    display: flex;
+    flex-direction: row;
+}
+
+header {
+    position: relative;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 40vh;
+    background-color: #2a8c4a;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+
+  .message > h1, h4 {
+    color: #fff;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-shadow: -1px 2px 2px #143B03;
+  }
+
+  .message > h1 {
+    font-size: min(max(4.5vw,10px),65px)
+  }
+
+  .message > h4 {
+    font-size: min(max(2vw,5px),40px)
+  }
+
+  .message {
+    position: relative;
+    left: 10%;
+  }
+
+  .success-animation {
+    position: relative;
+    left: 5vw;
+    margin: 0 auto;
+  }
+
+.checkmark {
+    width: 20vw;
+    max-width: 180px;
+    border-radius: 50%;
+    display: block;
+    stroke-width: 2;
+    stroke: #fff;
+    stroke-miterlimit: 10;
+    box-shadow: inset 0px 0px 0px #fff;
+    animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+    position:relative;
+
+}
+.checkmark__circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 2;
+    stroke-miterlimit: 10;
+    stroke: #fff;
+    fill: #2a8c4a;
+    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+ 
+}
+
+.checkmark__check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+@keyframes stroke {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes scale {
+    0%, 100% {
+        transform: none;
+    }
+
+    50% {
+        transform: scale3d(1.1, 1.1, 1);
+    }
+}
+
+@keyframes fill {
+    100% {
+        box-shadow: inset 0px 0px 0px 30px #ab3ed8;
+    }
+}
+
+@keyframes scale {
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media screen and (max-width: 480px) {
+    header {
+        height: 100%;
+        flex-direction: column;
+    }
+    .success-animation {
+        margin-top: 5vh;
+        left: 0;
+        display: flex;
+        order: 0;
+    }
+
+    .checkmark {
+        width: 70vw;
+    }
+
+    .message {
+        display: flex;
+        margin-top: 1.5vh;
+        left: 3vw;
+        flex-direction: column;
+        order: 1;
+        width: 100%;
+    }
+
+    .message > h1 {
+        font-size: 13vw;
+      }
+    
+    .message > h4 {
+        font-size: 5vw;
+      }
+
+    .message > h1, h4 {
+        margin: 1vh;
+    }
+  }

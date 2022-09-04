@@ -34,7 +34,7 @@ function restoreDb(req, res) {
             events.once(rl, 'close');
             pool.releaseConnection(conn);
             console.log(" - Todas las consultas realizadas - ")
-            res.sendFile(process.cwd() + '/public/sucess.html');
+            res.sendFile(process.cwd() + '/public/success.html');
          });
     }catch(error){
         console.error(error);
