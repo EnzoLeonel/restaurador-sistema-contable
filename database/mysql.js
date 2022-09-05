@@ -28,7 +28,7 @@ function restoreDb(req, res) {
         pool.getConnection((err, conn) => {
             rl.on('line', (line) => {
                 conn.query(line, (err, rows) => {
-                    if(err) throw err;
+                    if(err) console.error(`Error en query: ${err}`);
                 });
             });
             events.once(rl, 'close');
