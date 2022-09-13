@@ -38,7 +38,7 @@ function restoreDb(req, res) {
          });
     }catch(error){
         console.error(error);
-        res.sendFile(process.cwd() + '/public/index.html');
+        res.sendFile(process.cwd() + '/public/error.html');
     }
 }
 
